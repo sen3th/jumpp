@@ -19,16 +19,17 @@ export default class Game extends Phaser.Scene
 
     create()
     {
-        this.add.image(240, 320, 'background');
+        this.add.image(240, 320, 'background')
+            .setScrollFactor(1, 0);
 
-        const platforms = this.physics.add.staticGroup();
+        this.platforms = this.physics.add.staticGroup();
 
         for (let i = 0; i < 5; ++i)
         {
             const x = Phaser.Math.Between(80, 400);
             const y = 150 * i;
 
-            const platform = platforms.create(x, y, 'platform');
+            const platform = this.platforms.create(x, y, 'platform');
             platform.scale = 0.5;
 
             const body = platform.body;
@@ -38,7 +39,7 @@ export default class Game extends Phaser.Scene
         this.player = this.physics.add.sprite(240, 320, 'bunny-stand')
             .setScale(0.5);
 
-        this.physics.add.collider(platforms, this.player);
+        this.physics.add.collider(this.platforms, this.player);
 
         this.player.body.checkCollision.up = false;
         this.player.body.checkCollision.left = false;
@@ -57,5 +58,17 @@ export default class Game extends Phaser.Scene
             // making the bunny jump up straight
             this.player.setVelocityY(-300);
         }
+
+        this.platforms.children.iterate(child => {
+
+            const platform = child
+
+            const scrollY = this.cameras.main.scrollY
+            if (platform.y >= scrollY + 700)
+            {
+                platform.y = scrollY - Phaser.Math.Between(50, 100);
+                platform.body.updateFromGameObject();
+            }
+        })
     }
 }
