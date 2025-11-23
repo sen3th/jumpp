@@ -50,6 +50,9 @@ export default class Game extends Phaser.Scene
         this.player.body.checkCollision.right = false;
 
         this.cameras.main.startFollow(this.player);
+
+        // horizontal deadzone
+        this.cameras.main.setDeadzone(this.scale.width * 1.5)
     }
 
     update()
@@ -88,5 +91,22 @@ export default class Game extends Phaser.Scene
                 platform.body.updateFromGameObject();
             }
         })
+
+        this.horizontalWrap(this.player);
+    }
+
+    horizontalWrap(sprite)
+    {
+        const halfWidth = sprite.displayWidth * 0.5
+        const gameWidth = this.scale.width
+
+        if (sprite.x < -halfWidth)
+        {
+            sprite.x = gameWidth + halfWidth
+        }
+        else if (sprite.x > gameWidth + halfWidth)
+        {
+            sprite.x = -halfWidth
+        }
     }
 }
