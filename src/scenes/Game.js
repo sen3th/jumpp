@@ -59,6 +59,9 @@ export default class Game extends Phaser.Scene
         this.load.image('carrot', 'assets/carrot.png');
 
         this.load.image('bunny-jump', 'assets/bunny1_jump.png')
+
+        //sound effect
+        this.load.audio('jump', 'assets/sfx/phaseJump1.ogg')
     }
 
     create()
@@ -126,6 +129,7 @@ export default class Game extends Phaser.Scene
             // making the bunny jump up straight
             this.player.setVelocityY(-300);
             this.player.setTexture('bunny-jump');
+            this.sound.play('jump');
         }
 
         const vy = this.player.body.velocity.y
