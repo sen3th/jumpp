@@ -3,15 +3,22 @@ import carrot from "../game/Carrot.js";
 
 export default class Game extends Phaser.Scene 
 {
+    carrotsCollected = 0
+
     cursors
     
     addCarrotsAbove(sprite)
     {
-        const y =sprite.y - sprite.displayHeight
+        const y = sprite.y - sprite.displayHeight
 
         const carrot = this.carrots.get(sprite.x, y, 'carrot')
 
+        carrot.setActive(true)
+        carrot.setVisible(true)
+
         this.add.existing(carrot)
+
+        this.physics.world.enable(carrot)
 
         carrot.body.setSize(carrot.width, carrot.height)
 
@@ -22,6 +29,12 @@ export default class Game extends Phaser.Scene
     {
         this.carrots.killAndHide(carrot)
         this.physics.world.disableBody(carrot.body)
+        carrot.body.enable = false
+
+        this.carrotsCollected++
+
+        const value = `Carrots: ${this.carrotsCollected}`
+        this.carrotsCollectedText.text = value
     }
 
     constructor()
@@ -81,6 +94,7 @@ export default class Game extends Phaser.Scene
         })
 
         this.physics.add.collider(this.platforms, this.carrots)
+
         this.physics.add.overlap(
             this.player,
             this.carrots,
@@ -88,6 +102,11 @@ export default class Game extends Phaser.Scene
             undefined,
             this
         )
+
+        const style = { color: '#000', fontSize: 24 };
+        this.carrotsCollectedText = this.add.text(240, 10, 'Carrots: 0', style)
+            .setScrollFactor(0)
+            .setOrigin(0.5, 0)
     }
 
     update()
