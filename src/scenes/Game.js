@@ -6,6 +6,11 @@ export default class Game extends Phaser.Scene
     carrotsCollected = 0
 
     cursors
+
+    init()
+    {
+        this.carrotsCollected = 0
+    }
     
     addCarrotsAbove(sprite)
     {
@@ -52,6 +57,8 @@ export default class Game extends Phaser.Scene
         this.load.image('bunny-stand', 'assets/bunny1_stand.png');
         
         this.load.image('carrot', 'assets/carrot.png');
+
+        this.load.image('bunny-jump', 'assets/bunny1_jump.png')
     }
 
     create()
@@ -118,8 +125,16 @@ export default class Game extends Phaser.Scene
         {
             // making the bunny jump up straight
             this.player.setVelocityY(-300);
+            this.player.setTexture('bunny-jump');
         }
 
+        const vy = this.player.body.velocity.y
+        if (vy > 0 && this.player.texture.key !== 'bunny-stand')
+        {
+            this.player.setTexture('bunny-stand');
+        }
+
+        
         // horizontal movement
         if (this.cursors.left.isDown && !touchingDown)
         {
