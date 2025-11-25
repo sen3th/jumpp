@@ -1,7 +1,7 @@
 ## Overview
 A small platformer focused on responsive movement and jump precision. 
 
-Made with phaserjs and based on an amazing tutorial by [Tommy Leung](https://ourcade.co/books/infinite-jumper-phaser3). 
+Made with [phaserjs](https://phaser.io/) and based on an [amazing tutorial by Tommy Leung](https://ourcade.co/books/infinite-jumper-phaser3). 
 
 This project uses free assets from [Kenney.nl](https://kenney.nl/assets/jumper-pack).
 
