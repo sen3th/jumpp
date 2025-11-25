@@ -12,6 +12,23 @@ export default class Game extends Phaser.Scene
         this.carrotsCollected = 0
     }
     
+        addGoldenCarrotsAbove(sprite)
+    {
+        const y = sprite.y - sprite.displayHeight
+
+        const goldenCarrot = this.goldenCarrots.get(sprite.x, y, 'goldenCarrot')
+
+        goldenCarrot.setActive(true)
+        goldenCarrot.setVisible(true)
+
+        this.add.existing(goldenCarrot)
+
+        this.physics.world.enable(goldenCarrot)
+
+        goldenCarrot.body.setSize(goldenCarrot.width, goldenCarrot.height)
+        return goldenCarrot
+    }
+
     addCarrotsAbove(sprite)
     {
         const y = sprite.y - sprite.displayHeight
@@ -42,6 +59,17 @@ export default class Game extends Phaser.Scene
         this.carrotsCollectedText.text = value
     }
 
+        handleCollectGoldenCarrot(player, goldenCarrot)
+    {
+        this.goldenCarrots.killAndHide(goldenCarrot)
+        this.physics.world.disableBody(goldenCarrot.body)
+        goldenCarrot.body.enable = false
+        this.carrotsCollected += 5
+
+        const value = `Carrots: ${this.carrotsCollected}`
+        this.carrotsCollectedText.text = value
+    }
+
     constructor()
     {
         super('game')
@@ -59,6 +87,8 @@ export default class Game extends Phaser.Scene
         this.load.image('carrot', 'assets/carrot.png');
 
         this.load.image('bunny-jump', 'assets/bunny1_jump.png')
+
+        this.load.image('goldenCarrot', 'assets/carrot_gold.png');
 
         //sound effect
         this.load.audio('jump', 'assets/sfx/phaseJump1.ogg')
@@ -103,12 +133,25 @@ export default class Game extends Phaser.Scene
             classType: carrot
         })
 
+        this.goldenCarrots = this.physics.add.group({
+            classType: carrot
+        })
+
         this.physics.add.collider(this.platforms, this.carrots)
+        this.physics.add.collider(this.platforms, this.goldenCarrots)
 
         this.physics.add.overlap(
             this.player,
             this.carrots,
             this.handleCollectCarrot,
+            undefined,
+            this
+        )
+
+        this.physics.add.overlap(
+            this.player,
+            this.goldenCarrots,
+            this.handleCollectGoldenCarrot,
             undefined,
             this
         )
@@ -163,7 +206,12 @@ export default class Game extends Phaser.Scene
                 platform.y = scrollY - Phaser.Math.Between(50, 100);
                 platform.body.updateFromGameObject();
 
-                this.addCarrotsAbove(platform);
+                // golden carrot chance
+                if (Phaser.Math.Between(1, 10) === 1) {
+                    this.addGoldenCarrotsAbove(platform);
+                } else {
+                    this.addCarrotsAbove(platform);
+                }
             }
         })
 
