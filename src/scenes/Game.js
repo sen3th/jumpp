@@ -123,7 +123,7 @@ export default class Game extends Phaser.Scene
         this.load.image('springMan', 'assets/springman_stand.png');
 
         //sound effect
-        this.load.audio('jump', 'assets/sfx/phaseJump1.ogg')
+        this.load.audio('jump', 'assets/sfx/phaseJump1.mp3')
     }
 
     create()
