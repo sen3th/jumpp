@@ -8,9 +8,9 @@ body {
 }
 
 h1 {
-    color: darkgreen;
+    color: brown;
     text-align: center;
-    font-size: large;
+    font-size: large; 
 }
 
 canvas {

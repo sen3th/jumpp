@@ -14,7 +14,7 @@ export default class Game extends Phaser.Scene
         this.carrotsCollected = 0
     }
     
-        addGoldenCarrotsAbove(sprite)
+    addGoldenCarrotsAbove(sprite)
     {
         const y = sprite.y - sprite.displayHeight
 
@@ -31,7 +31,7 @@ export default class Game extends Phaser.Scene
         return goldenCarrot
     }
 
-        addSpringMenAbove(sprite)
+    addSpringMenAbove(sprite)
     {
         const y = sprite.y - sprite.displayHeight
 
@@ -74,22 +74,25 @@ export default class Game extends Phaser.Scene
 
         this.carrotsCollected++
 
+        this.sound.play('carrotCollect')
+
         const value = `Carrots: ${this.carrotsCollected}`
         this.carrotsCollectedText.text = value
     }
 
-        handleCollectGoldenCarrot(player, goldenCarrot)
+    handleCollectGoldenCarrot(player, goldenCarrot)
     {
         this.goldenCarrots.killAndHide(goldenCarrot)
         this.physics.world.disableBody(goldenCarrot.body)
         goldenCarrot.body.enable = false
         this.carrotsCollected += 5
+        this.sound.play('goldenCarrotCollect')
 
         const value = `Carrots: ${this.carrotsCollected}`
         this.carrotsCollectedText.text = value
     }
 
-        handleSpringMen(player, springman)
+    handleSpringMen(player, springman)
     {
         this.springmen.killAndHide(springman)
         this.physics.world.disableBody(springman.body)
@@ -107,7 +110,7 @@ export default class Game extends Phaser.Scene
 
     preload()
     {
-        this.load.image('background', 'assets/bg_layer1.png');
+      this.load.image('background', 'assets/bg_layer1.png');
 
         // load platform PNGs
         this.load.image('platform', 'assets/ground_grass.png');
@@ -122,8 +125,10 @@ export default class Game extends Phaser.Scene
 
         this.load.image('springMan', 'assets/springman_stand.png');
 
-        //sound effect
+        //sound effects
         this.load.audio('jump', 'assets/sfx/phaseJump1.mp3')
+        this.load.audio('carrotCollect', 'assets/sfx/pepSound1.mp3')
+        this.load.audio('goldenCarrotCollect', 'assets/sfx/pepSound2.mp3')
     }
 
     create()
