@@ -219,7 +219,7 @@ export default class Game extends Phaser.Scene
         if (touchingDown)
         {
             // making the bunny jump up straight
-            this.player.setVelocityY(-300);
+            this.player.setVelocityY(-325);
             this.player.setTexture('bunny-jump');
             this.sound.play('jump');
         }
