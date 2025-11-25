@@ -1,7 +1,7 @@
 import Phaser from "../lib/phaser.js";
 import carrot from "../game/Carrot.js";
 import goldenCarrot from "../game/goldenCarrot.js";
-import springman from "../game/springMan.js";
+import springman from "../game/springman.js";
 
 export default class Game extends Phaser.Scene 
 {
@@ -78,6 +78,11 @@ export default class Game extends Phaser.Scene
 
         const value = `Carrots: ${this.carrotsCollected}`
         this.carrotsCollectedText.text = value
+
+        if (this.carrotsCollected <= 0) {
+            this.carrotsCollected = 0
+            this.carrotsCollectedText.text = 'Carrots: 0'
+        }
     }
 
     handleCollectGoldenCarrot(player, goldenCarrot)
@@ -90,6 +95,11 @@ export default class Game extends Phaser.Scene
 
         const value = `Carrots: ${this.carrotsCollected}`
         this.carrotsCollectedText.text = value
+
+          if (this.carrotsCollected <= 0) {
+            this.carrotsCollected = 0
+            this.carrotsCollectedText.text = 'Carrots: 0'
+        }
     }
 
     handleSpringMen(player, springman)
@@ -101,6 +111,11 @@ export default class Game extends Phaser.Scene
 
         const value = `Carrots: ${this.carrotsCollected}`
         this.carrotsCollectedText.text = value
+
+          if (this.carrotsCollected <= 0) {
+            this.carrotsCollected = 0
+            this.carrotsCollectedText.text = 'Carrots: 0'
+        }
     }
 
     constructor()
