@@ -1,5 +1,7 @@
 import Phaser from "../lib/phaser.js";
 import carrot from "../game/Carrot.js";
+import goldenCarrot from "../game/goldenCarrot.js";
+import springman from "../game/springMan.js";
 
 export default class Game extends Phaser.Scene 
 {
@@ -27,6 +29,23 @@ export default class Game extends Phaser.Scene
 
         goldenCarrot.body.setSize(goldenCarrot.width, goldenCarrot.height)
         return goldenCarrot
+    }
+
+        addSpringMenAbove(sprite)
+    {
+        const y = sprite.y - sprite.displayHeight
+
+        const springman = this.springmen.get(sprite.x, y, 'springMan')
+
+        springman.setActive(true)
+        springman.setVisible(true)
+
+        this.add.existing(springman)
+
+        this.physics.world.enable(springman)
+
+        springman.body.setSize(springman.width, springman.height)
+        return springman
     }
 
     addCarrotsAbove(sprite)
@@ -70,6 +89,17 @@ export default class Game extends Phaser.Scene
         this.carrotsCollectedText.text = value
     }
 
+        handleSpringMen(player, springman)
+    {
+        this.springmen.killAndHide(springman)
+        this.physics.world.disableBody(springman.body)
+        springman.body.enable = false
+        this.carrotsCollected -= 10
+
+        const value = `Carrots: ${this.carrotsCollected}`
+        this.carrotsCollectedText.text = value
+    }
+
     constructor()
     {
         super('game')
@@ -89,6 +119,8 @@ export default class Game extends Phaser.Scene
         this.load.image('bunny-jump', 'assets/bunny1_jump.png')
 
         this.load.image('goldenCarrot', 'assets/carrot_gold.png');
+
+        this.load.image('springMan', 'assets/springman_stand.png');
 
         //sound effect
         this.load.audio('jump', 'assets/sfx/phaseJump1.ogg')
@@ -137,6 +169,10 @@ export default class Game extends Phaser.Scene
             classType: carrot
         })
 
+        this.springmen = this.physics.add.group({
+            classType: springman
+        })
+
         this.physics.add.collider(this.platforms, this.carrots)
         this.physics.add.collider(this.platforms, this.goldenCarrots)
 
@@ -152,6 +188,14 @@ export default class Game extends Phaser.Scene
             this.player,
             this.goldenCarrots,
             this.handleCollectGoldenCarrot,
+            undefined,
+            this
+        )
+
+        this.physics.add.overlap(
+            this.player,
+            this.springmen,
+            this.handleSpringMen,
             undefined,
             this
         )
@@ -209,6 +253,7 @@ export default class Game extends Phaser.Scene
                 // golden carrot chance
                 if (Phaser.Math.Between(1, 10) === 1) {
                     this.addGoldenCarrotsAbove(platform);
+                    this.addSpringMenAbove(platform);
                 } else {
                     this.addCarrotsAbove(platform);
                 }
