@@ -8,6 +8,7 @@ export default class Game extends Phaser.Scene
     carrotsCollected = 0
 
     cursors
+    pointer
 
     init()
     {
@@ -107,7 +108,7 @@ export default class Game extends Phaser.Scene
         this.springmen.killAndHide(springman)
         this.physics.world.disableBody(springman.body)
         springman.body.enable = false
-        this.carrotsCollected -= 10
+        this.carrotsCollected -= 5
 
         const value = `Carrots: ${this.carrotsCollected}`
         this.carrotsCollectedText.text = value
@@ -181,6 +182,17 @@ export default class Game extends Phaser.Scene
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        // touch and drag input
+        this.input.on('pointermove', (pointer) => {
+            if (pointer.isDown) {
+                this.pointer = pointer;
+            }
+        });
+
+        this.input.on('pointerup', () => {
+            this.pointer = null;
+        });
+
         this.carrots = this.physics.add.group({
             classType: carrot
         })
@@ -247,7 +259,17 @@ export default class Game extends Phaser.Scene
 
         
         // horizontal movement
-        if (this.cursors.left.isDown && !touchingDown)
+        if (this.pointer && !touchingDown)
+        {
+            // move bunny towards pointer X position
+            const diff = this.pointer.x - this.player.x;
+            if (Math.abs(diff) > 10) {
+                this.player.setVelocityX(diff > 0 ? 200 : -200);
+            } else {
+                this.player.setVelocityX(0);
+            }
+        }
+        else if (this.cursors.left.isDown && !touchingDown)
         {
             this.player.setVelocityX(-200)
         }
