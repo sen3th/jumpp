@@ -24,6 +24,12 @@ export default class GameOver extends Phaser.Scene
         })
         .setOrigin(0.5)
 
+        this.add.text(width * 0.5, height * 0.7, 'Final Score: ' + this.registry.get('score'), {
+            fontSize: '32px',
+            color: '#ffff00'
+        })
+        .setOrigin(0.5)
+
         this.input.keyboard.once('keydown-SPACE', () => {
             this.scene.start('game');
         })
