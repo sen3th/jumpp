@@ -1,7 +1,7 @@
 ## Overview
 A small platformer focused on responsive movement and jump precision. 
 
-Made with [phaserjs](https://phaser.io/) and based on an [amazing guide by Tommy Leung](https://ourcade.co/books/infinite-jumper-phaser3). This project uses free assets from [Kenney.nl](https://kenney.nl/assets/jumper-pack).
+Made with [phaserjs](https://phaser.io/) and based on an [amazing guide by Tommy Leung](https://ourcade.co/books/infinite-jumper-phaser3). This project uses free assets from [Kenney.nl](https://kenney.nl/assets/jumper-pack) and background music by [Mykola Sosin from Pixabay](https://pixabay.com/music/video-games-game-gaming-minecraft-background-music-377647/).
 
 ## Controls
 - Move: Left/Right arrow keys or Touch/Drag.

@@ -145,10 +145,14 @@ export default class Game extends Phaser.Scene
         this.load.audio('jump', 'assets/sfx/phaseJump1.mp3')
         this.load.audio('carrotCollect', 'assets/sfx/pepSound1.mp3')
         this.load.audio('goldenCarrotCollect', 'assets/sfx/pepSound2.mp3')
+        this.load.audio('background-music', 'assets/sfx/background-music.mp3')
     }
 
     create()
     {
+        this.backgroundMusic = this.sound.add('background-music', { loop: true });
+        this.backgroundMusic.play();
+
         this.add.image(240, 320, 'background')
             .setScrollFactor(1, 0);
 
