@@ -109,6 +109,7 @@ export default class Game extends Phaser.Scene
         this.physics.world.disableBody(springman.body)
         springman.body.enable = false
         this.carrotsCollected -= 5
+        this.sound.play('springSound')
 
         const value = `Carrots: ${this.carrotsCollected}`
         this.carrotsCollectedText.text = value
@@ -146,6 +147,7 @@ export default class Game extends Phaser.Scene
         this.load.audio('carrotCollect', 'assets/sfx/pepSound1.mp3')
         this.load.audio('goldenCarrotCollect', 'assets/sfx/pepSound2.mp3')
         this.load.audio('background-music', 'assets/sfx/background-music.mp3')
+        this.load.audio('springSound', 'assets/sfx/phaserDown3.mp3')
     }
 
     create()

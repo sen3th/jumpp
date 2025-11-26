@@ -14,20 +14,27 @@ h1 {
     text-shadow: black 1px 2px 3px;
     cursor: default;
 }
+h1:hover {
+    color: #FFA500;
+    text-shadow: black 2px 3px 4px;
+}
 
 footer {
     font-size: small;
     color: rgb(121, 120, 120);
     margin-bottom: 15px;
+    text-align: center;
 }
 
 a {
     text-decoration: none;
     color: rgb(121, 120, 120);
 }
+a:hover {
+    text-decoration: underline;
+}
 
 hr {
-    width: 400px;
-    margin-top: 10px;
-    margin-bottom: 50px;
+    width: 20%;
+    margin-bottom: 30px;
 }
